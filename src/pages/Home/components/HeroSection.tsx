@@ -12,7 +12,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ title, subtitle }) => {
             <span className="text-[#FF5733] font-black uppercase text-xs tracking-[0.5em] mb-6">
                 Culture / Musique / Vie Locale
             </span>
-            <h1 className="brand-heading text-[clamp(2.5rem,15vw,140px)] leading-[0.9] mb-12 text-center uppercase w-full px-4 whitespace-nowrap overflow-hidden text-ellipsis">
+            <h1 className="brand-heading text-[clamp(1.5rem,12vw,140px)] leading-[0.9] mb-12 text-center uppercase w-full px-4 whitespace-nowrap">
                 {title}
             </h1>
             <div className="w-full flex items-center gap-10 overflow-hidden">

@@ -38,7 +38,7 @@ const ArtistDetail: React.FC = () => {
               <MapPin size={12} className="mr-1" /> {artist.ville}
             </span>
           </div>
-          <h1 className="text-[clamp(2.5rem,12vw,6.5rem)] lg:text-8xl font-black brand-heading uppercase tracking-tighter leading-none mb-8 whitespace-nowrap overflow-hidden text-ellipsis">
+          <h1 className="text-[clamp(1.8rem,11vw,6.5rem)] lg:text-8xl font-black brand-heading uppercase tracking-tighter leading-none mb-8 whitespace-nowrap">
             {artist.nom}
           </h1>
           <p className="text-xl md:text-2xl font-bold leading-relaxed mb-10 text-gray-700 drop-cap">
