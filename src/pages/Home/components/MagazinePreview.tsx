@@ -30,7 +30,7 @@ const MagazinePreview: React.FC<MagazinePreviewProps> = ({ article }) => {
             <span className="text-[10px] font-black uppercase text-[#FF5733] mb-4 tracking-[0.4em] block">
                 DOSSIER — {article.categorie}
             </span>
-            <h3 className="text-2xl md:text-4xl lg:text-5xl font-black brand-heading mb-4 lg:mb-8 leading-[1] group-hover:text-[#FF5733] transition-colors uppercase text-balance break-words">
+            <h3 className="text-[clamp(1.2rem,6vw,3rem)] lg:text-5xl font-black brand-heading mb-4 lg:mb-8 leading-[1] group-hover:text-[#FF5733] transition-colors uppercase whitespace-nowrap overflow-hidden text-ellipsis">
                 {article.titre}
             </h3>
             <p className="text-xl font-bold text-gray-700 leading-tight mb-8 drop-cap line-clamp-3">
