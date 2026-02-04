@@ -98,11 +98,55 @@ const mapEventFromDb = (db: any): Event => ({
   description: db.description
 });
 
-const mapArtistToDb = (a: Artist) => ({ ...a, extended_bio: a.extendedBio });
-const mapArtistFromDb = (db: any): Artist => ({ ...db, extendedBio: db.extended_bio });
+const mapArtistToDb = (a: Artist) => ({
+  id: a.id,
+  nom: a.nom,
+  discipline: a.discipline,
+  ville: a.ville,
+  photo: a.photo,
+  bio: a.bio,
+  extended_bio: a.extendedBio || null,
+  instagram: a.instagram || null,
+  facebook: a.facebook || null,
+  archives: a.archives || []
+});
 
-const mapArticleToDb = (a: Article) => ({ ...a, photo_credit: a.photoCredit });
-const mapArticleFromDb = (db: any): Article => ({ ...db, photoCredit: db.photo_credit });
+const mapArtistFromDb = (db: any): Artist => ({
+  id: db.id,
+  nom: db.nom,
+  discipline: db.discipline,
+  ville: db.ville,
+  photo: db.photo,
+  bio: db.bio,
+  extendedBio: db.extended_bio,
+  instagram: db.instagram,
+  facebook: db.facebook,
+  archives: db.archives || []
+});
+
+const mapArticleToDb = (a: Article) => ({
+  id: a.id,
+  titre: a.titre,
+  categorie: a.categorie,
+  cover: a.cover,
+  excerpt: a.excerpt,
+  content: a.content,
+  date: a.date,
+  author: a.author,
+  photo_credit: a.photoCredit || null
+});
+
+const mapArticleFromDb = (db: any): Article => ({
+  id: db.id,
+  titre: db.titre,
+  categorie: db.categorie,
+  cover: db.cover,
+  excerpt: db.excerpt,
+  content: db.content,
+  date: db.date,
+  author: db.author,
+  photoCredit: db.photo_credit
+});
 
 
 export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
