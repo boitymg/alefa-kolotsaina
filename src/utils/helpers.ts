@@ -4,7 +4,7 @@
  */
 export const getYouTubeThumbnail = (url: string): string | null => {
     if (!url) return null;
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?]*).*/;
     const match = url.match(regExp);
 
     if (match && match[2].length === 11) {
@@ -23,7 +23,7 @@ export const getYouTubeEmbedUrl = (url: string): string => {
     if (!url) return '';
     if (url.includes('embed')) return url;
 
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?]*).*/;
     const match = url.match(regExp);
 
     if (match && match[2].length === 11) {

@@ -45,17 +45,24 @@ const AdminPanel: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     }
   };
 
-  const handleSave = () => {
-    updateAllData({
-      settings: localSettings,
-      menus: localMenus,
-      events: localEvents,
-      artists: localArtists,
-      videos: localVideos,
-      articles: localArticles
-    });
-    setSaveStatus("SYNCHRONISATION TERMINÉE");
-    setTimeout(() => setSaveStatus(null), 3000);
+  const handleSave = async () => {
+    setSaveStatus("SYNCHRONISATION EN COURS...");
+    try {
+      await updateAllData({
+        settings: localSettings,
+        menus: localMenus,
+        events: localEvents,
+        artists: localArtists,
+        videos: localVideos,
+        articles: localArticles
+      });
+      setSaveStatus("SYNCHRONISATION TERMINÉE");
+      setTimeout(() => setSaveStatus(null), 3000);
+    } catch (error) {
+      console.error("Save failed:", error);
+      setSaveStatus("ERREUR DE SAUVEGARDE (!)");
+      setTimeout(() => setSaveStatus(null), 5000);
+    }
   };
 
   const handleExport = () => {
@@ -159,8 +166,12 @@ const AdminPanel: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <header className="flex justify-between items-center mb-12 border-b-4 border-black pb-8">
           <h2 className="text-4xl md:text-6xl font-black brand-heading uppercase">{activeTab}</h2>
           <div className="flex gap-4">
-            <button onClick={handleSave} className="bg-[#22C55E] text-white px-8 py-4 font-black uppercase text-xs tracking-widest hover:bg-black transition-all">
-              PUBLIER LES MODIFS
+            <button
+              onClick={handleSave}
+              disabled={saveStatus === "SYNCHRONISATION EN COURS..."}
+              className={`bg-[#22C55E] text-white px-8 py-4 font-black uppercase text-xs tracking-widest transition-all ${saveStatus === "SYNCHRONISATION EN COURS..." ? 'opacity-50 cursor-not-allowed' : 'hover:bg-black'}`}
+            >
+              {saveStatus === "SYNCHRONISATION EN COURS..." ? "ENVOI..." : "PUBLIER LES MODIFS"}
             </button>
             <button onClick={onClose} className="border-4 border-black p-4 hover:bg-black hover:text-white transition-all">
               <X size={20} />

@@ -20,3 +20,13 @@ Redémarrez le serveur :
 
 L'application détectera automatiquement les clés et basculera en mode "Connecté".
 Si les clés sont absentes, elle continuera à fonctionner en mode "Local".
+
+## 4. Déploiement Vercel (Production)
+⚠️ **TRÈS IMPORTANT** : Pour que le site fonctionne en ligne, vous devez ajouter ces mêmes variables sur Vercel :
+
+1. Allez dans votre projet sur [Vercel](https://vercel.com/dashboard).
+2. Cliquez sur **Settings** > **Environment Variables**.
+3. Ajoutez les variables suivantes (avec les mêmes valeurs que dans votre `.env.local`) :
+   - `VITE_SUPABASE_URL`
+   - `VITE_SUPABASE_ANON_KEY`
+4. Redéployez votre site (ou attendez le prochain push) pour que cela prenne effet.
