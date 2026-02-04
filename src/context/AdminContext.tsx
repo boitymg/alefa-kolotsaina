@@ -66,8 +66,37 @@ const mapSettingsFromDb = (db: any): SiteSettings => ({
   redacSignature: db.redac_signature
 });
 
-const mapEventToDb = (e: Event) => ({ ...e, social_link: e.socialLink });
-const mapEventFromDb = (db: any): Event => ({ ...db, socialLink: db.social_link });
+const mapEventToDb = (e: Event) => ({
+  id: e.id,
+  titre: e.titre,
+  slug: e.slug,
+  date: e.date,
+  heure: e.heure,
+  ville: e.ville,
+  type: e.type,
+  affiche: e.affiche,
+  prix: e.prix,
+  whatsapp: e.whatsapp,
+  social_link: e.socialLink,
+  valide: e.valide,
+  description: e.description || null
+});
+
+const mapEventFromDb = (db: any): Event => ({
+  id: db.id,
+  titre: db.titre,
+  slug: db.slug,
+  date: db.date,
+  heure: db.heure,
+  ville: db.ville,
+  type: db.type,
+  affiche: db.affiche,
+  prix: db.prix,
+  whatsapp: db.whatsapp,
+  socialLink: db.social_link,
+  valide: db.valide,
+  description: db.description
+});
 
 const mapArtistToDb = (a: Artist) => ({ ...a, extended_bio: a.extendedBio });
 const mapArtistFromDb = (db: any): Artist => ({ ...db, extendedBio: db.extended_bio });
