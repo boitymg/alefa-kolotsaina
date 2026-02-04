@@ -103,6 +103,15 @@ const EventsTab: React.FC<EventsTabProps> = ({ localEvents, setLocalEvents, hand
                             onChange={e => updateEvent(idx, { socialLink: e.target.value })}
                             placeholder="LIEN SOCIAL (FB/IG)"
                         />
+                        <div className="pt-4 border-t-2 border-dashed border-gray-200">
+                            <label className="block text-[10px] font-black uppercase tracking-widest text-[#FF5733] mb-2">NOTE DE L'ORGANISATEUR</label>
+                            <textarea
+                                className="w-full border-2 border-black p-4 font-medium text-sm outline-none focus:border-[#FF5733] min-h-[120px]"
+                                value={event.description || ''}
+                                onChange={e => updateEvent(idx, { description: e.target.value })}
+                                placeholder="Détails, contexte, histoire..."
+                            />
+                        </div>
                         <button
                             onClick={() => removeEvent(event.id)}
                             className="text-red-600 font-black text-[10px] uppercase underline hover:text-red-800"
