@@ -203,7 +203,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
       // 2. Events
       console.log("📅 Syncing events...");
-      const deleteEventsResult = await supabase.from('events').delete().neq('id', 'x');
+      const deleteEventsResult = await supabase.from('events').delete().gte('id', '');
       if (deleteEventsResult.error) throw new Error(`Delete events error: ${deleteEventsResult.error.message}`);
 
       if (data.events.length) {
@@ -216,7 +216,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
       // 3. Artists
       console.log("🎭 Syncing artists...");
-      const deleteArtistsResult = await supabase.from('artists').delete().neq('id', 'x');
+      const deleteArtistsResult = await supabase.from('artists').delete().gte('id', '');
       if (deleteArtistsResult.error) throw new Error(`Delete artists error: ${deleteArtistsResult.error.message}`);
 
       if (data.artists.length) {
@@ -229,7 +229,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
       // 4. Videos
       console.log("🎬 Syncing videos...");
-      const deleteVideosResult = await supabase.from('videos').delete().neq('id', 'x');
+      const deleteVideosResult = await supabase.from('videos').delete().gte('id', '');
       if (deleteVideosResult.error) throw new Error(`Delete videos error: ${deleteVideosResult.error.message}`);
 
       if (data.videos.length) {
@@ -241,7 +241,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
       // 5. Articles
       console.log("📰 Syncing articles...");
-      const deleteArticlesResult = await supabase.from('articles').delete().neq('id', 'x');
+      const deleteArticlesResult = await supabase.from('articles').delete().gte('id', '');
       if (deleteArticlesResult.error) throw new Error(`Delete articles error: ${deleteArticlesResult.error.message}`);
 
       if (data.articles.length) {
@@ -254,7 +254,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
       // 6. Menus
       console.log("🍔 Syncing menus...");
-      const deleteMenusResult = await supabase.from('menus').delete().neq('id', 'x');
+      const deleteMenusResult = await supabase.from('menus').delete().gte('id', '');
       if (deleteMenusResult.error) throw new Error(`Delete menus error: ${deleteMenusResult.error.message}`);
 
       if (data.menus.length) {
