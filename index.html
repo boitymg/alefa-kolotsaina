@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alefa Kolotsaina — Gazette Culturelle</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Syne:wght@400..800&family=Inter:wght@400;500;700;900&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --brand-accent: #FF5733;
+      --brand-black: #0A0A0A;
+      --brand-paper: #FDFCF8;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--brand-paper);
+      color: var(--brand-black);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      background-image: url("https://www.transparenttextures.com/patterns/felt.png");
+      scroll-behavior: smooth;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    .brand-heading {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      /* Légèrement augmenté pour éviter le chevauchement */
+    }
+
+    .brand-script {
+      font-family: 'Caveat', cursive;
+      text-transform: none;
+      letter-spacing: normal;
+      line-height: 1;
+    }
+
+    .drop-cap::first-letter {
+      font-family: 'Syne', sans-serif;
+      font-size: 5rem;
+      font-weight: 900;
+      float: left;
+      line-height: 0.7;
+      margin-right: 1rem;
+      margin-top: 0.5rem;
+      color: var(--brand-black);
+      border-right: 6px solid var(--brand-accent);
+      padding-right: 0.5rem;
+    }
+
+    /* Pour un rendu pro type Gazette */
+    .text-balance {
+      text-wrap: balance;
+    }
+
+    ::selection {
+      background: var(--brand-accent);
+      color: white;
+    }
+
+    .transition-all {
+      transition-duration: 400ms !important;
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--brand-paper);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--brand-black);
+      border: 2px solid var(--brand-paper);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--brand-accent);
+    }
+  </style>
+  <script type="importmap">
+    {
+      "imports": {
+        "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+        "react/": "https://esm.sh/react@^19.2.4/",
+        "react": "https://esm.sh/react@^19.2.4",
+        "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
+        "react-router-dom": "https://esm.sh/react-router-dom@^7.13.0"
+      }
+    }
+    </script>
+
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/index.tsx"></script>
+</body>
+
+</html>
