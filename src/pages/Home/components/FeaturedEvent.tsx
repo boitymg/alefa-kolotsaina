@@ -35,7 +35,7 @@ const FeaturedEvent: React.FC<FeaturedEventProps> = ({ event }) => {
                         <span className="bg-black text-white px-3 py-1 text-[10px] font-black uppercase tracking-widest mb-4 inline-block">
                             {event.type} — À L'AFFICHE
                         </span>
-                        <h2 className="text-4xl md:text-7xl font-black brand-heading mb-8 group-hover:text-[#FF5733] transition-colors leading-[0.95] uppercase text-balance">
+                        <h2 className="text-3xl md:text-5xl lg:text-7xl font-black brand-heading mb-8 group-hover:text-[#FF5733] transition-colors leading-[0.95] uppercase text-balance break-words">
                             {event.titre}
                         </h2>
                         <p className="text-xl md:text-2xl font-bold leading-tight mb-8 drop-cap max-w-3xl text-gray-700">

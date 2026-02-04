@@ -52,7 +52,7 @@ const EventDetail: React.FC = () => {
               </span>
             </div>
 
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black brand-heading uppercase tracking-tighter leading-none mb-12 text-wrap-balance">
+            <h1 className="text-[clamp(2.5rem,8vw,6rem)] font-black brand-heading uppercase tracking-tighter leading-none mb-12 text-wrap-balance break-words">
               {event.titre}
             </h1>
 
