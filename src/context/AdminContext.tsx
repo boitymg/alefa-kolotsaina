@@ -174,6 +174,26 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const updateVideos = (videos: Video[]) => setAppData(prev => ({ ...prev, videos }));
   const updateArticles = (articles: Article[]) => setAppData(prev => ({ ...prev, articles }));
 
+  // Helper function to clear a table safely
+  const clearTable = async (tableName: string) => {
+    const { data: existingData, error: fetchError } = await supabase!
+      .from(tableName)
+      .select('id');
+
+    if (fetchError) throw new Error(`Fetch ${tableName} IDs error: ${fetchError.message}`);
+
+    if (existingData && existingData.length > 0) {
+      for (const row of existingData) {
+        const { error: deleteError } = await supabase!
+          .from(tableName)
+          .delete()
+          .eq('id', row.id);
+
+        if (deleteError) throw new Error(`Delete ${tableName} row error: ${deleteError.message}`);
+      }
+    }
+  };
+
   const updateAllData = async (data: typeof appData) => {
     console.log("🔄 Starting sync to Supabase...");
     console.log("📊 Data to sync:", {
@@ -203,8 +223,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
       // 2. Events
       console.log("📅 Syncing events...");
-      const deleteEventsResult = await supabase.from('events').delete().gte('id', '');
-      if (deleteEventsResult.error) throw new Error(`Delete events error: ${deleteEventsResult.error.message}`);
+      await clearTable('events');
 
       if (data.events.length) {
         const mappedEvents = data.events.map(mapEventToDb);
@@ -216,8 +235,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
       // 3. Artists
       console.log("🎭 Syncing artists...");
-      const deleteArtistsResult = await supabase.from('artists').delete().gte('id', '');
-      if (deleteArtistsResult.error) throw new Error(`Delete artists error: ${deleteArtistsResult.error.message}`);
+      await clearTable('artists');
 
       if (data.artists.length) {
         const mappedArtists = data.artists.map(mapArtistToDb);
@@ -229,8 +247,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
       // 4. Videos
       console.log("🎬 Syncing videos...");
-      const deleteVideosResult = await supabase.from('videos').delete().gte('id', '');
-      if (deleteVideosResult.error) throw new Error(`Delete videos error: ${deleteVideosResult.error.message}`);
+      await clearTable('videos');
 
       if (data.videos.length) {
         console.log("🎬 Inserting videos:", data.videos.length);
@@ -241,8 +258,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
       // 5. Articles
       console.log("📰 Syncing articles...");
-      const deleteArticlesResult = await supabase.from('articles').delete().gte('id', '');
-      if (deleteArticlesResult.error) throw new Error(`Delete articles error: ${deleteArticlesResult.error.message}`);
+      await clearTable('articles');
 
       if (data.articles.length) {
         const mappedArticles = data.articles.map(mapArticleToDb);
@@ -254,8 +270,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
       // 6. Menus
       console.log("🍔 Syncing menus...");
-      const deleteMenusResult = await supabase.from('menus').delete().gte('id', '');
-      if (deleteMenusResult.error) throw new Error(`Delete menus error: ${deleteMenusResult.error.message}`);
+      await clearTable('menus');
 
       if (data.menus.length) {
         console.log("🍔 Inserting menus:", data.menus.length);
