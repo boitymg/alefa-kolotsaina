@@ -175,36 +175,100 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const updateArticles = (articles: Article[]) => setAppData(prev => ({ ...prev, articles }));
 
   const updateAllData = async (data: typeof appData) => {
+    console.log("🔄 Starting sync to Supabase...");
+    console.log("📊 Data to sync:", {
+      events: data.events.length,
+      artists: data.artists.length,
+      videos: data.videos.length,
+      articles: data.articles.length,
+      menus: data.menus.length
+    });
+
     setAppData(data);
 
-    if (isSupabaseConfigured() && supabase) {
-      try {
-        // Atomic-like update (Delete All + Insert All for arrays to ensure sync)
+    if (!isSupabaseConfigured() || !supabase) {
+      console.warn("⚠️ Supabase NOT configured. Saving to localStorage only.");
+      alert("⚠️ ATTENTION: Supabase n'est pas configuré. Les données sont sauvegardées en LOCAL uniquement!");
+      return;
+    }
 
-        await supabase.from('site_settings').upsert({ id: 1, ...mapSettingsToDb(data.settings) });
+    console.log("✅ Supabase is configured. Starting sync...");
 
-        // Arrays: Strategy Delete All -> Insert All
-        // Note: In a high concurrency app this is bad. For a single admin CMS it is robust.
-        await supabase.from('events').delete().neq('id', 'x');
-        if (data.events.length) await supabase.from('events').insert(data.events.map(mapEventToDb));
+    try {
+      // 1. Settings
+      console.log("📝 Syncing settings...");
+      const settingsResult = await supabase.from('site_settings').upsert({ id: 1, ...mapSettingsToDb(data.settings) });
+      if (settingsResult.error) throw new Error(`Settings error: ${settingsResult.error.message}`);
+      console.log("✅ Settings synced");
 
-        await supabase.from('artists').delete().neq('id', 'x');
-        if (data.artists.length) await supabase.from('artists').insert(data.artists.map(mapArtistToDb));
+      // 2. Events
+      console.log("📅 Syncing events...");
+      const deleteEventsResult = await supabase.from('events').delete().neq('id', 'x');
+      if (deleteEventsResult.error) throw new Error(`Delete events error: ${deleteEventsResult.error.message}`);
 
-        await supabase.from('videos').delete().neq('id', 'x');
-        if (data.videos.length) await supabase.from('videos').insert(data.videos);
-
-        await supabase.from('articles').delete().neq('id', 'x');
-        if (data.articles.length) await supabase.from('articles').insert(data.articles.map(mapArticleToDb));
-
-        await supabase.from('menus').delete().neq('id', 'x');
-        if (data.menus.length) await supabase.from('menus').insert(data.menus);
-
-        console.log("Supabase synced successfully");
-      } catch (e) {
-        console.error("Supabase sync failed", e);
-        alert("Erreur de synchronisation Supabase. Vérifiez votre connexion.");
+      if (data.events.length) {
+        const mappedEvents = data.events.map(mapEventToDb);
+        console.log("📅 Inserting events:", mappedEvents.length);
+        const insertEventsResult = await supabase.from('events').insert(mappedEvents);
+        if (insertEventsResult.error) throw new Error(`Insert events error: ${insertEventsResult.error.message}`);
       }
+      console.log("✅ Events synced");
+
+      // 3. Artists
+      console.log("🎭 Syncing artists...");
+      const deleteArtistsResult = await supabase.from('artists').delete().neq('id', 'x');
+      if (deleteArtistsResult.error) throw new Error(`Delete artists error: ${deleteArtistsResult.error.message}`);
+
+      if (data.artists.length) {
+        const mappedArtists = data.artists.map(mapArtistToDb);
+        console.log("🎭 Inserting artists:", mappedArtists.length);
+        const insertArtistsResult = await supabase.from('artists').insert(mappedArtists);
+        if (insertArtistsResult.error) throw new Error(`Insert artists error: ${insertArtistsResult.error.message}`);
+      }
+      console.log("✅ Artists synced");
+
+      // 4. Videos
+      console.log("🎬 Syncing videos...");
+      const deleteVideosResult = await supabase.from('videos').delete().neq('id', 'x');
+      if (deleteVideosResult.error) throw new Error(`Delete videos error: ${deleteVideosResult.error.message}`);
+
+      if (data.videos.length) {
+        console.log("🎬 Inserting videos:", data.videos.length);
+        const insertVideosResult = await supabase.from('videos').insert(data.videos);
+        if (insertVideosResult.error) throw new Error(`Insert videos error: ${insertVideosResult.error.message}`);
+      }
+      console.log("✅ Videos synced");
+
+      // 5. Articles
+      console.log("📰 Syncing articles...");
+      const deleteArticlesResult = await supabase.from('articles').delete().neq('id', 'x');
+      if (deleteArticlesResult.error) throw new Error(`Delete articles error: ${deleteArticlesResult.error.message}`);
+
+      if (data.articles.length) {
+        const mappedArticles = data.articles.map(mapArticleToDb);
+        console.log("📰 Inserting articles:", mappedArticles.length);
+        const insertArticlesResult = await supabase.from('articles').insert(mappedArticles);
+        if (insertArticlesResult.error) throw new Error(`Insert articles error: ${insertArticlesResult.error.message}`);
+      }
+      console.log("✅ Articles synced");
+
+      // 6. Menus
+      console.log("🍔 Syncing menus...");
+      const deleteMenusResult = await supabase.from('menus').delete().neq('id', 'x');
+      if (deleteMenusResult.error) throw new Error(`Delete menus error: ${deleteMenusResult.error.message}`);
+
+      if (data.menus.length) {
+        console.log("🍔 Inserting menus:", data.menus.length);
+        const insertMenusResult = await supabase.from('menus').insert(data.menus);
+        if (insertMenusResult.error) throw new Error(`Insert menus error: ${insertMenusResult.error.message}`);
+      }
+      console.log("✅ Menus synced");
+
+      console.log("🎉 ALL DATA SYNCED TO SUPABASE SUCCESSFULLY!");
+    } catch (e: any) {
+      console.error("❌ Supabase sync failed:", e);
+      alert(`❌ ERREUR DE SYNCHRONISATION:\n\n${e.message}\n\nVérifiez la console (F12) pour plus de détails.`);
+      throw e;
     }
   };
 
