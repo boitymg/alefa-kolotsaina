@@ -19,7 +19,7 @@ const ADMIN_PASSWORD = "ALEFAK";
 const AdminPanel: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const {
     events, artists, videos, articles, menus, settings,
-    updateEvents, updateArtists, updateVideos, updateArticles, updateMenus, updateSettings, clearAllData, exportData, importData
+    updateEvents, updateArtists, updateVideos, updateArticles, updateMenus, updateSettings, updateAllData, clearAllData, exportData, importData
   } = useAdmin();
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -46,12 +46,14 @@ const AdminPanel: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   };
 
   const handleSave = () => {
-    updateSettings(localSettings);
-    updateMenus(localMenus);
-    updateEvents(localEvents);
-    updateArtists(localArtists);
-    updateVideos(localVideos);
-    updateArticles(localArticles);
+    updateAllData({
+      settings: localSettings,
+      menus: localMenus,
+      events: localEvents,
+      artists: localArtists,
+      videos: localVideos,
+      articles: localArticles
+    });
     setSaveStatus("SYNCHRONISATION TERMINÉE");
     setTimeout(() => setSaveStatus(null), 3000);
   };

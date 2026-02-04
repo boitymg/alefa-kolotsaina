@@ -2,6 +2,7 @@
 import React from 'react';
 import { Video, VideoCategory } from '../../../types';
 import ImageBox from './ImageBox';
+import { getYouTubeThumbnail, getYouTubeEmbedUrl } from '../../../utils/helpers';
 
 interface VideosTabProps {
     localVideos: Video[];
@@ -22,6 +23,20 @@ const VideosTab: React.FC<VideosTabProps> = ({ localVideos, setLocalVideos, hand
 
     const updateVideo = (idx: number, updates: Partial<Video>) => {
         const next = [...localVideos];
+
+        // Auto-fetch thumbnail if URL is updated and thumbnail is empty
+        if (updates.url && !next[idx].thumbnail) {
+            const thumb = getYouTubeThumbnail(updates.url);
+            if (thumb) {
+                updates.thumbnail = thumb;
+            }
+        }
+
+        // Auto-format embed URL if it's a YouTube link
+        if (updates.url) {
+            updates.url = getYouTubeEmbedUrl(updates.url);
+        }
+
         next[idx] = { ...next[idx], ...updates };
         setLocalVideos(next);
     };
